@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Girl 💗</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    overflow:hidden;
+    font-family:Arial,sans-serif;
+    background:linear-gradient(135deg,#ffd6e7,#e8dcff,#d9f3ff);
+    color:#66334d;
+}
+
+.screen{
+    position:absolute;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    opacity:0;
+    visibility:hidden;
+    transform:scale(.95);
+    transition:.7s;
+}
+
+.screen.active{
+    opacity:1;
+    visibility:visible;
+    transform:scale(1);
+}
+
+.card{
+    width:min(850px,94vw);
+    max-height:90vh;
+    overflow:auto;
+    text-align:center;
+    padding:35px 28px;
+    border-radius:30px;
+    background:rgba(255,255,255,.58);
+    backdrop-filter:blur(15px);
+    box-shadow:0 20px 60px rgba(100,50,100,.2);
+}
+
+.teddy{
+    font-size:110px;
+    animation:bounce 2s infinite;
+}
+
+h1{
+    color:#ff4d91;
+    font-size:clamp(32px,6vw,60px);
+    text-shadow:2px 2px white;
+    margin:15px 0;
+}
+
+h2{
+    color:#ff4d91;
+    font-size:clamp(28px,5vw,45px);
+}
+
+p{
+    font-size:clamp(18px,2.5vw,25px);
+    line-height:1.7;
+}
+
+.message{
+    white-space:pre-line;
+}
+
+button{
+    border:0;
+    border-radius:40px;
+    padding:16px 30px;
+    background:#ff5797;
+    color:white;
+    font-size:19px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 8px 25px rgba(255,80,145,.3);
+    transition:.3s;
+}
+
+button:hover{
+    transform:scale(1.07);
+}
+
+.balloon{
+    position:fixed;
+    font-size:55px;
+    animation:sway 3s infinite;
+}
+
+.b1{left:5%;top:12%}
+.b2{right:5%;top:15%}
+.b3{left:8%;bottom:10%}
+.b4{right:8%;bottom:10%}
+
+.heart{
+    position:fixed;
+    bottom:-50px;
+    font-size:28px;
+    animation:float 6s linear forwards;
+    pointer-events:none;
+    z-index:100;
+}
+
+.photo{
+    width:min(430px,85vw);
+    max-height:55vh;
+    object-fit:contain;
+    border-radius:25px;
+    box-shadow:0 15px 45px rgba(0,0,0,.25);
+}
+
+.final{
+    color:#ff4089;
+    font-weight:bold;
+    font-size:clamp(23px,4vw,35px);
+}
+
+.hidden{
+    display:none;
+}
+
+
+/* =========================
+   CAKE AREA
+   ========================= */
+
+.cake-area{
+    position:relative;
+    width:360px;
+    height:280px;
+    margin:0 auto 5px;
+}
+
+.cake{
+    position:absolute;
+    width:270px;
+    height:145px;
+    left:50%;
+    bottom:0;
+    transform:translateX(-50%);
+    z-index:1;
+}
+
+.cake-bottom{
+    position:absolute;
+    width:270px;
+    height:80px;
+    bottom:0;
+    left:0;
+    background:linear-gradient(to bottom,#ff8fba,#ff6fa6);
+    border-radius:18px 18px 25px 25px;
+    box-shadow:0 8px 12px rgba(120,50,80,.2);
+}
+
+.cake-middle{
+    position:absolute;
+    width:250px;
+    height:55px;
+    bottom:55px;
+    left:10px;
+    background:#ffd1e1;
+    border-radius:18px 18px 12px 12px;
+}
+
+.cake-top{
+    position:absolute;
+    width:270px;
+    height:45px;
+    bottom:85px;
+    left:0;
+    background:#fff0f6;
+    border-radius:50%;
+    box-shadow:0 5px 8px rgba(100,40,70,.12);
+}
+
+.drip{
+    position:absolute;
+    width:270px;
+    height:30px;
+    bottom:68px;
+    left:0;
+    background:#fff;
+    border-radius:0 0 20px 20px;
+    z-index:2;
+}
+
+.drip span{
+    position:absolute;
+    width:20px;
+    height:30px;
+    background:#fff;
+    border-radius:0 0 15px 15px;
+}
+
+.drip span:nth-child(1){left:35px;}
+.drip span:nth-child(2){left:90px;height:40px;}
+.drip span:nth-child(3){left:150px;height:27px;}
+.drip span:nth-child(4){left:205px;height:38px;}
+
+.dot{
+    position:absolute;
+    width:12px;
+    height:12px;
+    background:#ff4d91;
+    border-radius:50%;
+    z-index:4;
+}
+
+.dot1{left:55px;bottom:25px;}
+.dot2{left:125px;bottom:20px;}
+.dot3{right:55px;bottom:28px;}
+
+
+/* =========================
+   CANDLES
+   ========================= */
+
+.candles{
+    position:absolute;
+    bottom:112px;
+    left:50%;
+    transform:translateX(-50%);
+    width:190px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    z-index:10;
+}
+
+.candle{
+    position:relative;
+    width:15px;
+    height:52px;
+    background:linear-gradient(to right,#79cfff,#ffffff,#79cfff);
+    border-radius:4px 4px 2px 2px;
+    box-shadow:0 2px 5px rgba(0,0,0,.18);
+}
+
+.candle::after{
+    content:"";
+    position:absolute;
+    left:0;
+    top:13px;
+    width:100%;
+    height:5px;
+    background:#ff8fba;
+    border-radius:3px;
+}
+
+.flame{
+    position:absolute;
+    top:-25px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:21px;
+    animation:flameMove .7s infinite alternate;
+    z-index:12;
+}
+
+.candles.off .flame{
+    display:none;
+}
+
+.candles.off::after{
+    content:"💨";
+    position:absolute;
+    top:-35px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:23px;
+    animation:smoke .8s ease-out;
+}
+
+
+/* =========================
+   GIFT
+   ========================= */
+
+.gift-box{
+    font-size:120px;
+    cursor:pointer;
+    display:inline-block;
+    user-select:none;
+    animation:giftFloat 1.5s ease-in-out infinite;
+    transition:.3s;
+}
+
+.gift-box:hover{
+    transform:scale(1.12);
+}
+
+.gift-box.opening{
+    animation:giftOpen 1.2s ease forwards;
+    pointer-events:none;
+}
+
+#finalMessage{
+    animation:finalAppear 1s ease;
+}
+
+
+/* =========================
+   ANIMATIONS
+   ========================= */
+
+@keyframes bounce{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-15px);
+    }
+}
+
+@keyframes sway{
+    0%,100%{
+        transform:rotate(-8deg);
+    }
+    50%{
+        transform:rotate(8deg);
+    }
+}
+
+@keyframes float{
+    0%{
+        transform:translateY(0) rotate(0);
+        opacity:1;
+    }
+    100%{
+        transform:translateY(-110vh) rotate(360deg);
+        opacity:0;
+    }
+}
+
+@keyframes flameMove{
+    from{
+        transform:translateX(-50%) scale(1);
+    }
+    to{
+        transform:translateX(-50%) scale(1.12);
+    }
+}
+
+@keyframes smoke{
+    from{
+        opacity:1;
+        transform:translate(-50%,0);
+    }
+    to{
+        opacity:0;
+        transform:translate(-50%,-30px);
+    }
+}
+
+@keyframes giftFloat{
+    0%,100%{
+        transform:translateY(0) rotate(-3deg);
+    }
+    50%{
+        transform:translateY(-12px) rotate(3deg);
+    }
+}
+
+@keyframes giftOpen{
+    0%{
+        transform:scale(1) rotate(0deg);
+        opacity:1;
+    }
+
+    20%{
+        transform:scale(1.15) rotate(-10deg);
+    }
+
+    40%{
+        transform:scale(1.15) rotate(10deg);
+    }
+
+    60%{
+        transform:scale(1.25) rotate(-10deg);
+    }
+
+    80%{
+        transform:scale(1.5) rotate(10deg);
+        opacity:1;
+    }
+
+    100%{
+        transform:scale(2.5) rotate(0deg);
+        opacity:0;
+    }
+}
+
+@keyframes finalAppear{
+    from{
+        opacity:0;
+        transform:scale(.5);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- BALLOONS -->
+
+<div class="balloon b1">🎈</div>
+<div class="balloon b2">🎈</div>
+<div class="balloon b3">🎈</div>
+<div class="balloon b4">🎈</div>
+
+
+<div id="hearts"></div>
+
+
+<!-- SONG -->
+
+<audio id="birthdaySong" loop>
+    <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+
+<!-- =========================
+     SCREEN 1
+     ========================= -->
+
+<section class="screen active" id="screen1">
+
+<div class="card">
+
+<div class="teddy">🧸</div>
+
+<div class="cake-area">
+
+<div class="candles" id="candles">
+
+<div class="candle">
+<div class="flame">🔥</div>
+</div>
+
+<div class="candle">
+<div class="flame">🔥</div>
+</div>
+
+<div class="candle">
+<div class="flame">🔥</div>
+</div>
+
+<div class="candle">
+<div class="flame">🔥</div>
+</div>
+
+</div>
+
+
+<div class="cake">
+
+<div class="cake-top"></div>
+
+<div class="drip">
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+</div>
+
+<div class="cake-middle"></div>
+<div class="cake-bottom"></div>
+
+<div class="dot dot1"></div>
+<div class="dot dot2"></div>
+<div class="dot dot3"></div>
+
+</div>
+
+</div>
+
+
+<h2>
+Make a wish… and blow the candles 🕯️✨
+</h2>
+
+<p class="final">
+bebuuuu 😭🫂❤️
+</p>
+
+<button onclick="startSurprise()">
+Open Surprise 🎁
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     SCREEN 2
+     ========================= -->
+
+<section class="screen" id="screen2">
+
+<div class="card">
+
+<div class="teddy">🧸</div>
+
+<h2>Wait…</h2>
+
+<p class="final">
+jann 😭💓
+</p>
+
+<button onclick="nextScreen(3)">
+Continue 💗
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     SCREEN 3
+     ========================= -->
+
+<section class="screen" id="screen3">
+
+<div class="card">
+
+<div class="teddy">🧸</div>
+
+<h1>
+happyyyyyyyyyy<br>
+birthhhdayyyyyyyyyyyy<br>
+myyyyyy girllllllllllll 😭🫂🎂
+</h1>
+
+<button onclick="nextScreen(4)">
+There's something I want to tell you 💌
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     SCREEN 4
+     ========================= -->
+
+<section class="screen" id="screen4">
+
+<div class="card">
+
+<h2>
+For you, jannnn 💌
+</h2>
+
+<p class="message">
+
+jannn yeh chota sa effort apki birthday ke liyee I hope yeh apka sab se acha birthday hugaa happyyyyyy birthday my girlll jann sorryyyy mein milne nh aa sakhtaa mere ko ptahe bhut dil he apkaaa pr jann yeh possible nh hn pr mein yaha se jitna huga osse zada hi kroga apko apke birthday wale din specail feel krwa ke I loveeeeeee youuuuuuuu sooooo muchhhhhh janaaaaaaa 😭💍💋
+
+</p>
+
+<button onclick="nextScreen(5)">
+One more thing… 💗
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     SCREEN 5
+     ========================= -->
+
+<section class="screen" id="screen5">
+
+<div class="card">
+
+<div class="teddy">🧸</div>
+
+<h2>
+There's still more for you 💗
+</h2>
+
+<p class="final">
+💌 🥹 💗
+</p>
+
+<button onclick="nextScreen(6)">
+See it 💕
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     SCREEN 6
+     ========================= -->
+
+<section class="screen" id="screen6">
+
+<div class="card">
+
+<h2>
+Best pic bebuuu 🖤🤍
+</h2>
+
+<img src=".png" class="photo">
+
+<p class="message">
+
+best pic bebuuu sab se achii lagti mekkoo suche ek pic mein itne ache lag rahe jab sath hugy toh kitne ache lagy gy g 😭💓
+
+</p>
+
+<button onclick="nextScreen(7)">
+Why you're so special 💗
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     SCREEN 7
+     ========================= -->
+
+<section class="screen" id="screen7">
+
+<div class="card">
+
+<h2>
+Why you're so special 💗
+</h2>
+
+<p class="message">
+
+jann wese toh yeh sawal valid hi noii ke why yuor are so special pr phir bhi apkii muhabat apka meri khushi mein khush huna mere ko pareshan dekh ke khud pareshan hujana apka danta larna muh banana meko tang krna meri ulti baato pe hasna (jo ikk bhutt nonsense huti hehe) meko apna babyy bolnaa janaaaa I'm soo luckyyyy tooo haveee youuuuuuuuu 😭💋🐦
+
+meko noii pta mein apni malkin ka kese shukriya kro ke ap mere sath itna kuch krtiii I'm sooo thankfullll 😭
+
+apka mere liye pareshan huna mere ko support krna meri baate sunna booring booringgg baateeeee mere ko bar bar mafff krna itna bura hurt krdeta apkoo sorryyyy jannn pr mein janke essa nhh krta sachii mein thank youuuu sooo muchhh mere ko meri ghaltiyo pe bar bar maff krne ke liyee or hurt hune ke bd bhi sab kuch bholane ke liyeeee
+
+jannn yeh toh bs ek do cheze hi batai he jisski waja se ap special he warna toh mein sari zindagi likhata rahu ap kiu special he mere liyee
+
+jannnn thank youuuuu sooo muchhhhh ke ap mereko miliii 😭🫂💋❤️🐦⭐
+
+</p>
+
+<button onclick="nextScreen(8)">
+One Last Surprise 🎁
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     SCREEN 8
+     ========================= -->
+
+<section class="screen" id="screen8">
+
+<div class="card">
+
+<div id="gift">
+
+<div
+id="giftBox"
+class="gift-box"
+onclick="openGift()"
+>
+🎁
+</div>
+
+<h2 id="giftText">
+Open it janaa 💗
+</h2>
+
+</div>
+
+
+<div id="finalMessage" class="hidden">
+
+<div class="teddy">
+🧸
+</div>
+
+<h1>
+Happy Birthday ❤️
+</h1>
+
+<p class="final">
+myyyyy girllllllll 🥹🫂💗
+</p>
+
+<div style="font-size:60px">
+🎂🎈✨💖🌸
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<script>
+
+let currentScreen = 1;
+
+
+/* START SURPRISE + SONG */
+
+function startSurprise(){
+
+    let song =
+        document.getElementById("birthdaySong");
+
+    song.play().catch(function(){});
+
+    nextScreen(2);
+}
+
+
+/* SCREEN CHANGE */
+
+function nextScreen(number){
+
+    document
+        .getElementById("screen" + currentScreen)
+        .classList.remove("active");
+
+    currentScreen = number;
+
+    document
+        .getElementById("screen" + currentScreen)
+        .classList.add("active");
+}
+
+
+/* CANDLES GO OUT */
+
+setTimeout(function(){
+
+    let candles =
+        document.getElementById("candles");
+
+    candles.classList.add("off");
+
+},5000);
+
+
+/* FLOATING HEARTS */
+
+function makeHeart(){
+
+    let heart =
+        document.createElement("div");
+
+    heart.className = "heart";
+
+    let emojis = [
+        "❤️",
+        "💗",
+        "💕",
+        "💖",
+        "💓",
+        "✨",
+        "🫂"
+    ];
+
+    heart.innerHTML =
+        emojis[
+            Math.floor(
+                Math.random()*emojis.length
+            )
+        ];
+
+    heart.style.left =
+        Math.random()*100 + "vw";
+
+    heart.style.animationDuration =
+        (4 + Math.random()*4) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(function(){
+        heart.remove();
+    },8000);
+}
+
+
+setInterval(makeHeart,500);
+
+
+/* =========================
+   OPEN FINAL GIFT
+   ========================= */
+
+let giftOpened = false;
+
+function openGift(){
+
+    if(giftOpened) return;
+
+    giftOpened = true;
+
+    let giftBox =
+        document.getElementById("giftBox");
+
+    let giftText =
+        document.getElementById("giftText");
+
+    giftText.style.opacity = "0";
+
+    giftBox.classList.add("opening");
+
+
+    /* HEART EXPLOSION */
+
+    for(let i=0;i<35;i++){
+
+        setTimeout(function(){
+            makeHeart();
+        },i*25);
+
+    }
+
+
+    /* SHOW FINAL MESSAGE */
+
+    setTimeout(function(){
+
+        document
+            .getElementById("gift")
+            .style.display="none";
+
+        document
+            .getElementById("finalMessage")
+            .classList.remove("hidden");
+
+
+        /* MORE HEARTS */
+
+        for(let i=0;i<40;i++){
+
+            setTimeout(function(){
+                makeHeart();
+            },i*35);
+
+        }
+
+    },1200);
+
+}
+
+</script>
+
+</body>
+</html>
